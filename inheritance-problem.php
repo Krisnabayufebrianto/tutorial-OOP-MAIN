@@ -1,0 +1,71 @@
+<?php
+class Produk
+{
+    public
+        $merk,
+        $tipe,
+        $transmisi,
+        $harga,
+        // Tambahn property baru
+        $kondisi,
+        $kilometer,
+        $kategori;
+
+    //kenapa ada __ karena construct adalah salah magic methode (methode yang spesial yan dimiliki oleh php)
+    public function __construct($merk = "merk", $tipe = "tipe", $transmisi = "transmisi", $harga = 0, $kilometer = 0, $kondisi, $kategori)
+    {
+        $this->merk = $merk;
+        $this->tipe = $tipe;
+        $this->transmisi = $transmisi;
+        $this->harga = $harga;
+        $this->kondisi = $kondisi;
+        $this->kilometer = $kilometer;
+        $this->kategori = $kategori;
+    }
+
+    public function tampilkanProduk()
+    {
+        //$this-> digunakan untuk memanggil variabel yang ada diluar function
+        return "$this->merk, $this->tipe";
+    }
+
+    public function getInfoLengkap()
+    {
+        $str = " {$this->kategori} : {$this->tampilkanProduk()} | Rp. {$this->harga}, {$this->kilometer} Kilometer.   ";
+
+        if ($this->kategori == "MOBIL") {
+            $str .= "Kondisi : {$this->kondisi}";
+        } elseif ($this->kategori == "MOTOR") {
+            $str .= "Kondisi : {$this->kondisi}";
+        }
+
+        return $str;
+    }
+}
+
+class CetakInfoProduk
+{
+    //Produk digunakan untuk memberikan penjelasan bahwasanya yang boleh dicetak adalah variabel produk, selain itu tidak bisa di tampilkan
+    public function cetak(Produk $produk)
+    {
+        $str = "{$produk->tampilkanProduk()} | {$produk->transmisi} , Rp. {$produk->harga}";
+        return $str;
+    }
+}
+
+//tambahkan berapa jumlah kilometer yang sudah ditempuh
+$produk1 = new Produk("TOYOTA", "All New Yaris", "Manual", 100000000, 1200, "SECOND", "MOBIL");
+$produk2 = new Produk("HONDA", "CBR 150 CC", "Manual", 50000000, 0, "BARU", "MOTOR");
+
+// Mobil : TOYOTA, All New Yaris
+// Mobil : HONDA, All New Brio
+// TOYOTA, All New Yaris | Manual , Rp. 100000000
+
+// Sekarang kita akan menampilkan info produk secara detail
+// Nanti kita akan menampilkan data seperti ini :
+// Mobil : TOYOTA, All New Yaris | Manual, Rp. 100000000 - 1200Km. (SECOND)
+// Mobil : HONDA, All New Brio | Matic, Rp. 50000000 - 0Km. (BARU)
+
+echo $produk1->getInfoLengkap();
+echo "<br>";
+echo $produk2->getInfoLengkap();
